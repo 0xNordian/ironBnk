@@ -1,22 +1,11 @@
 package com.ironbank.proj;
 
-import com.ironbank.proj.model.Address;
-import com.ironbank.proj.model.User;
-import com.ironbank.proj.model.UserRole;
-import com.ironbank.proj.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.time.LocalDate;
-import java.util.Optional;
-
 @SpringBootApplication
 public class ProjApplication implements CommandLineRunner {
-
-	@Autowired
-	private UserService userService;
 
 	public static void main(String[] args) { SpringApplication.run(ProjApplication.class, args); }
 
