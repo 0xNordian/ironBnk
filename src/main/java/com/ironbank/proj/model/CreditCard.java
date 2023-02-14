@@ -1,11 +1,12 @@
 package com.ironbank.proj.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
-
+@Table(name = "credit_card")
 @Entity
 public class CreditCard extends Account {
 

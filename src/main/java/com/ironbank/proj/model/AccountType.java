@@ -6,4 +6,3 @@ public enum AccountType {
     SAVINGS,
     CREDIT_CARD
 }
-

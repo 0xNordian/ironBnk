@@ -2,35 +2,25 @@ package com.ironbank.proj.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
-import java.util.Optional;
 
-@Entity
 @Getter
 @Setter
+@NoArgsConstructor
+@Entity
+@Table(name = "users")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    private String userName;
-    private LocalDate dateOfBirth;
-    @OneToOne(cascade = CascadeType.ALL)
-    private Address primaryAddress;
-    private String mailingAddress;
-    private String hashedKey;
-    private String role;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    private String name;
+    private String password;
 
-    public User() {
-    }
-
-    public User(String userName, LocalDate dateOfBirth, Address primaryAddress, String mailingAddress, String hashedKey, String role) {
-        this.userName = userName;
-        this.dateOfBirth = dateOfBirth;
-        this.primaryAddress = primaryAddress;
-        this.mailingAddress = mailingAddress;
-        this.hashedKey = hashedKey;
-        this.role = role;
+    public User(String name, String password) {
+        this.name = name;
+        this.password = password;
     }
 }

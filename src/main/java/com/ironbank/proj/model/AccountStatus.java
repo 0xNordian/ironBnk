@@ -4,4 +4,3 @@ public enum AccountStatus {
     FROZEN,
     ACTIVE
 }
-

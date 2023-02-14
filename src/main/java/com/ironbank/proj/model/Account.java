@@ -7,7 +7,6 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Optional;
 
 @Getter
 @Setter
@@ -28,17 +27,17 @@ public abstract class Account {
     private AccountHolder secondaryOwner;
     @Embedded
     @AttributeOverrides({@AttributeOverride(name = "amount", column = @Column(name = "penalty_fee_amount")),@AttributeOverride(name = "currency", column = @Column(name = "penalty_fee_currency"))})
-    private Money penaltyFee = new Money(new BigDecimal (40));
+    private Money penaltyFee = new Money(new BigDecimal(40));
     protected LocalDate creationDate;
     @Enumerated(EnumType.STRING)
-    private AccountStatus accountStatus;
+    private AccountStatus status;
 
     public abstract AccountType getAccountType();
 
     public Account(Money penaltyFee, LocalDate creationDate, AccountStatus accountStatus) {
         this.penaltyFee = penaltyFee;
         this.creationDate = creationDate;
-        this.accountStatus = accountStatus;
+        this.status = accountStatus;
     }
 
     public Account(Money balance, String secretKey, AccountHolder primaryOwner, AccountHolder secondaryOwner, Money penaltyFee, LocalDate creationDate, AccountStatus accountStatus) {
@@ -46,7 +45,7 @@ public abstract class Account {
         this.secretKey = secretKey;
         this.primaryOwner = primaryOwner;
         this.secondaryOwner = secondaryOwner;
-        this.accountStatus = AccountStatus.ACTIVE;
+        this.status = AccountStatus.ACTIVE;
         this.creationDate = creationDate;
         setPenaltyFee(penaltyFee);
     }
@@ -68,5 +67,27 @@ public abstract class Account {
 
     public boolean hasSufficientFunds(Money amount) {
         return balance.getAmount().compareTo(amount.getAmount()) >= 0;
+    }
+
+    public boolean isFrozen() {
+        return status == AccountStatus.FROZEN;
+    }
+
+    public boolean isActive() {
+        return status == AccountStatus.ACTIVE;
+    }
+
+    public void freeze() {
+        status = AccountStatus.FROZEN;
+    }
+
+    public void activate() {
+        status = AccountStatus.ACTIVE;
+    }
+
+    public void deductPenaltyFee() {
+        if (balance.getAmount().compareTo(BigDecimal.ZERO) < 0) {
+            balance.decreaseAmount(penaltyFee.getAmount());
+        }
     }
 }

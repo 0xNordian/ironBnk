@@ -1,10 +1,11 @@
 package com.ironbank.proj.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-
+@Table(name = "student_checking_accounts")
 @Entity
 public class StudentChecking extends Checking {
 

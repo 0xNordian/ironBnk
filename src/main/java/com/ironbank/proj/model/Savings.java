@@ -1,6 +1,7 @@
 package com.ironbank.proj.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,6 +11,7 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
+@Table(name = "savings_accounts")
 @Entity
 @NoArgsConstructor
 public class Savings extends Account {
