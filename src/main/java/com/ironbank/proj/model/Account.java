@@ -19,26 +19,29 @@ public abstract class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
+    @Embedded
     protected Money balance;
     private String secretKey;
     @ManyToOne
     private AccountHolder primaryOwner;
     @ManyToOne
-    private Optional<AccountHolder> secondaryOwner;
-    private BigDecimal penaltyFee = new BigDecimal(40);
+    private AccountHolder secondaryOwner;
+    @Embedded
+    @AttributeOverrides({@AttributeOverride(name = "amount", column = @Column(name = "penalty_fee_amount")),@AttributeOverride(name = "currency", column = @Column(name = "penalty_fee_currency"))})
+    private Money penaltyFee = new Money(new BigDecimal (40));
     protected LocalDate creationDate;
     @Enumerated(EnumType.STRING)
     private AccountStatus accountStatus;
 
     public abstract AccountType getAccountType();
 
-    public Account(BigDecimal penaltyFee, LocalDate creationDate, AccountStatus accountStatus) {
+    public Account(Money penaltyFee, LocalDate creationDate, AccountStatus accountStatus) {
         this.penaltyFee = penaltyFee;
         this.creationDate = creationDate;
         this.accountStatus = accountStatus;
     }
 
-    public Account(Money balance, String secretKey, AccountHolder primaryOwner, Optional<AccountHolder> secondaryOwner, BigDecimal penaltyFee, LocalDate creationDate, AccountStatus accountStatus) {
+    public Account(Money balance, String secretKey, AccountHolder primaryOwner, AccountHolder secondaryOwner, Money penaltyFee, LocalDate creationDate, AccountStatus accountStatus) {
         this.balance = balance;
         this.secretKey = secretKey;
         this.primaryOwner = primaryOwner;
@@ -48,12 +51,12 @@ public abstract class Account {
         setPenaltyFee(penaltyFee);
     }
 
-    public BigDecimal getPenaltyFee() {
+    public Money getPenaltyFee() {
         return penaltyFee;
     }
 
-    public void setPenaltyFee(BigDecimal penaltyFee) {
-        if (penaltyFee.compareTo(BigDecimal.ZERO) < 0) {
+    public void setPenaltyFee(Money penaltyFee) {
+        if (penaltyFee.getAmount().compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException("Penalty fee cannot be negative.");
         }
         this.penaltyFee = penaltyFee;

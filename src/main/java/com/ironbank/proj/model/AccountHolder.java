@@ -1,5 +1,11 @@
 package com.ironbank.proj.model;
 
-public class AccountHolder {
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
+public class AccountHolder{
+    @Id
+    private Long id;
 
 }

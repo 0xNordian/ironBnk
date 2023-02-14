@@ -1,10 +1,10 @@
 package com.ironbank.proj.model;
 
 import jakarta.persistence.Entity;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
-import java.util.Optional;
 
 @Entity
 public class CreditCard extends Account {
@@ -16,7 +16,7 @@ public class CreditCard extends Account {
         super();
     }
 
-    public CreditCard(Money balance, String secretKey, AccountHolder primaryOwner, Optional<AccountHolder> secondaryOwner, BigDecimal penaltyFee, LocalDate creationDate, AccountStatus accountStatus, BigDecimal creditLimit, BigDecimal interestRate) {
+    public CreditCard(Money balance, String secretKey, AccountHolder primaryOwner, AccountHolder secondaryOwner, Money penaltyFee, LocalDate creationDate, AccountStatus accountStatus, BigDecimal creditLimit, BigDecimal interestRate) {
         super(balance, secretKey, primaryOwner, secondaryOwner, penaltyFee, creationDate, accountStatus);
         this.creditLimit = creditLimit;
         this.interestRate = interestRate;

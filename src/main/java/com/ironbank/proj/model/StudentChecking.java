@@ -4,7 +4,6 @@ import jakarta.persistence.Entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Optional;
 
 @Entity
 public class StudentChecking extends Checking {
@@ -17,7 +16,7 @@ public class StudentChecking extends Checking {
     }
 
     public StudentChecking(Money balance, String secretKey, AccountHolder primaryOwner,
-                           Optional<AccountHolder> secondaryOwner, BigDecimal penaltyFee, LocalDate creationDate) {
+                           AccountHolder secondaryOwner, Money penaltyFee, LocalDate creationDate) {
         super(balance, secretKey, primaryOwner, secondaryOwner, penaltyFee, creationDate, AccountStatus.ACTIVE);
     }
 

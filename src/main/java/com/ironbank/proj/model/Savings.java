@@ -7,7 +7,6 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Optional;
 
 @Getter
 @Setter
@@ -17,7 +16,7 @@ public class Savings extends Account {
     private BigDecimal interestRate = new BigDecimal("0.0025");
     private BigDecimal minimumBalance = new BigDecimal("1000");
 
-    public Savings(Money balance, String secretKey, AccountHolder primaryOwner, Optional<AccountHolder> secondaryOwner, BigDecimal penaltyFee, LocalDate creationDate, AccountStatus accountStatus, BigDecimal interestRate, BigDecimal minimumBalance) {
+    public Savings(Money balance, String secretKey, AccountHolder primaryOwner, AccountHolder secondaryOwner, Money penaltyFee, LocalDate creationDate, AccountStatus accountStatus, BigDecimal interestRate, BigDecimal minimumBalance) {
         super(balance, secretKey, primaryOwner, secondaryOwner, penaltyFee, creationDate, accountStatus);
         this.interestRate = interestRate;
         this.minimumBalance = minimumBalance;

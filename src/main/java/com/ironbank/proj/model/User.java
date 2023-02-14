@@ -18,14 +18,14 @@ public class User {
     private LocalDate dateOfBirth;
     @OneToOne(cascade = CascadeType.ALL)
     private Address primaryAddress;
-    private Optional<String> mailingAddress;
+    private String mailingAddress;
     private String hashedKey;
     private String role;
 
     public User() {
     }
 
-    public User(String userName, LocalDate dateOfBirth, Address primaryAddress, Optional<String> mailingAddress, String hashedKey, String role) {
+    public User(String userName, LocalDate dateOfBirth, Address primaryAddress, String mailingAddress, String hashedKey, String role) {
         this.userName = userName;
         this.dateOfBirth = dateOfBirth;
         this.primaryAddress = primaryAddress;

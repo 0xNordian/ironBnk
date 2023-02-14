@@ -11,7 +11,7 @@ import java.util.Optional;
 @Service
 public class UserService {
 
-    public User createUser(String name, LocalDate dateOfBirth, Address primaryAddress, Optional<String> mailingAddress, UserRole role, String hashedKey) {
+    public User createUser(String name, LocalDate dateOfBirth, Address primaryAddress, String mailingAddress, UserRole role, String hashedKey) {
         if (role == UserRole.ACCOUNT_HOLDER) {
             return new User(name, dateOfBirth, primaryAddress, mailingAddress, null, role.name());
         } else if (role == UserRole.THIRD_PARTY) {
