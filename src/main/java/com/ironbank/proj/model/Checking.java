@@ -1,91 +1,34 @@
 package com.ironbank.proj.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-
+import java.util.Optional;
+@Table(name = "checking_accounts")
 @Entity
-public class Checking {
+public class Checking extends Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    private BigDecimal balance;
-    private String secretKey;
-    private String primaryOwner;
-    private String secondaryOwner;
-    private BigDecimal minimumBalance;
-    private BigDecimal penaltyFee;
-    private BigDecimal monthlyMaintenanceFee;
-    private LocalDate creationDate;
-    private Enum status;
+    @Column(name = "id")
+    private Long id;
+
+    @Column(name = "minimum_balance")
+    private BigDecimal minimumBalance = new BigDecimal(250);
+
+    @Column(name = "monthly_maintenance_fee")
+    private BigDecimal monthlyMaintenanceFee = new BigDecimal(12);
 
     public Checking() {
     }
 
-    public Checking(BigDecimal balance, String secretKey, String primaryOwner, String secondaryOwner, BigDecimal minimumBalance, BigDecimal penaltyFee, BigDecimal monthlyMaintenanceFee, LocalDate creationDate, Enum status) {
-        setBalance(balance);
-        setSecretKey(secretKey);
-        setPrimaryOwner(primaryOwner);
-        setSecondaryOwner(secondaryOwner);
-        setMinimumBalance(minimumBalance);
-        setPenaltyFee(penaltyFee);
-        setMonthlyMaintenanceFee(monthlyMaintenanceFee);
-        setCreationDate(creationDate);
-        setStatus(status);
+    @Override
+    public AccountType getAccountType() {
+        return null;
     }
 
-    public Checking(BigDecimal balance, String secretKey, String primaryOwner, String secondaryOwner, BigDecimal penaltyFee, LocalDate creationDate, Enum status) {
-        setBalance(balance);
-        setSecretKey(secretKey);
-        setPrimaryOwner(primaryOwner);
-        setSecondaryOwner(secondaryOwner);
-        setPenaltyFee(penaltyFee);
-        setCreationDate(creationDate);
-        setStatus(status);
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public BigDecimal getBalance() {
-        return balance;
-    }
-
-    public void setBalance(BigDecimal balance) {
-        this.balance = balance;
-    }
-
-    public String getSecretKey() {
-        return secretKey;
-    }
-
-    public void setSecretKey(String secretKey) {
-        this.secretKey = secretKey;
-    }
-
-    public String getPrimaryOwner() {
-        return primaryOwner;
-    }
-
-    public void setPrimaryOwner(String primaryOwner) {
-        this.primaryOwner = primaryOwner;
-    }
-
-    public String getSecondaryOwner() {
-        return secondaryOwner;
-    }
-
-    public void setSecondaryOwner(String secondaryOwner) {
-        this.secondaryOwner = secondaryOwner;
+    public Checking(Money balance, String secretKey, AccountHolder primaryOwner, Optional<AccountHolder> secondaryOwner, BigDecimal penaltyFee, LocalDate creationDate, AccountStatus accountStatus) {
+        super(balance, secretKey, primaryOwner, secondaryOwner, penaltyFee, creationDate, accountStatus);
     }
 
     public BigDecimal getMinimumBalance() {
@@ -96,14 +39,6 @@ public class Checking {
         this.minimumBalance = minimumBalance;
     }
 
-    public BigDecimal getPenaltyFee() {
-        return penaltyFee;
-    }
-
-    public void setPenaltyFee(BigDecimal penaltyFee) {
-        this.penaltyFee = penaltyFee;
-    }
-
     public BigDecimal getMonthlyMaintenanceFee() {
         return monthlyMaintenanceFee;
     }
@@ -112,19 +47,11 @@ public class Checking {
         this.monthlyMaintenanceFee = monthlyMaintenanceFee;
     }
 
-    public LocalDate getCreationDate() {
-        return creationDate;
+    public void deductMonthlyMaintenanceFee() {
+        balance.decreaseAmount(monthlyMaintenanceFee);
     }
 
-    public void setCreationDate(LocalDate creationDate) {
-        this.creationDate = creationDate;
-    }
-
-    public Enum getStatus() {
-        return status;
-    }
-
-    public void setStatus(Enum status) {
-        this.status = status;
+    public boolean isBelowMinimumBalance() {
+        return balance.getAmount().compareTo(minimumBalance) < 0;
     }
 }
