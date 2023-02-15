@@ -1,5 +1,7 @@
 package com.ironbank.proj;
 
+import com.ironbank.proj.repository.AccountRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,7 +24,6 @@ public class ProjApplication implements CommandLineRunner {
 		User adminUser = userService.createUser("John Smith", null, primaryAddress, null, UserRole.ADMIN, null);
 
  */
-
 	}
 
 }

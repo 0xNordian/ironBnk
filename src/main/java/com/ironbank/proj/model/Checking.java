@@ -1,16 +1,16 @@
 package com.ironbank.proj.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 @Table(name = "checking_accounts")
+@Getter
+@Setter
 @Entity
 public class Checking extends Account {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
 
     @Column(name = "minimum_balance")
     private BigDecimal minimumBalance = new BigDecimal(250);
@@ -26,8 +26,8 @@ public class Checking extends Account {
         return null;
     }
 
-    public Checking(Money balance, String secretKey, AccountHolder primaryOwner, AccountHolder secondaryOwner, Money penaltyFee, LocalDate creationDate, AccountStatus accountStatus) {
-        super(balance, secretKey, primaryOwner, secondaryOwner, penaltyFee, creationDate, accountStatus);
+    public Checking(Money balance, String secretKey, AccountHolder primaryOwner, AccountHolder secondaryOwner, Money penaltyFee) {
+        super(balance, secretKey, primaryOwner, secondaryOwner);
     }
 
     public BigDecimal getMinimumBalance() {

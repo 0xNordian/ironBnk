@@ -28,26 +28,23 @@ public abstract class Account {
     @Embedded
     @AttributeOverrides({@AttributeOverride(name = "amount", column = @Column(name = "penalty_fee_amount")),@AttributeOverride(name = "currency", column = @Column(name = "penalty_fee_currency"))})
     private Money penaltyFee = new Money(new BigDecimal(40));
-    protected LocalDate creationDate;
+    protected LocalDate creationDate = LocalDate.now();
     @Enumerated(EnumType.STRING)
     private AccountStatus status;
 
     public abstract AccountType getAccountType();
 
-    public Account(Money penaltyFee, LocalDate creationDate, AccountStatus accountStatus) {
+    public Account(Money penaltyFee, AccountStatus accountStatus) {
         this.penaltyFee = penaltyFee;
-        this.creationDate = creationDate;
         this.status = accountStatus;
     }
 
-    public Account(Money balance, String secretKey, AccountHolder primaryOwner, AccountHolder secondaryOwner, Money penaltyFee, LocalDate creationDate, AccountStatus accountStatus) {
+    public Account(Money balance, String secretKey, AccountHolder primaryOwner, AccountHolder secondaryOwner) {
         this.balance = balance;
         this.secretKey = secretKey;
         this.primaryOwner = primaryOwner;
         this.secondaryOwner = secondaryOwner;
         this.status = AccountStatus.ACTIVE;
-        this.creationDate = creationDate;
-        setPenaltyFee(penaltyFee);
     }
 
     public Money getPenaltyFee() {

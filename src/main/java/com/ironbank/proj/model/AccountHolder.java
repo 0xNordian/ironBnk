@@ -40,6 +40,8 @@ public class AccountHolder {
     })
     private Address mailingAddress;
 
+    private String username;
+
     public AccountHolder(String name, LocalDate dateOfBirth, Address primaryAddress, Address mailingAddress) {
         this.name = name;
         this.dateOfBirth = dateOfBirth;

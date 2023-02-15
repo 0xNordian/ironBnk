@@ -18,8 +18,8 @@ public class Savings extends Account {
     private BigDecimal interestRate = new BigDecimal("0.0025");
     private BigDecimal minimumBalance = new BigDecimal("1000");
 
-    public Savings(Money balance, String secretKey, AccountHolder primaryOwner, AccountHolder secondaryOwner, Money penaltyFee, LocalDate creationDate, AccountStatus accountStatus, BigDecimal interestRate, BigDecimal minimumBalance) {
-        super(balance, secretKey, primaryOwner, secondaryOwner, penaltyFee, creationDate, accountStatus);
+    public Savings(Money balance, String secretKey, AccountHolder primaryOwner, AccountHolder secondaryOwner, BigDecimal interestRate, BigDecimal minimumBalance) {
+        super(balance, secretKey, primaryOwner, secondaryOwner);
         this.interestRate = interestRate;
         this.minimumBalance = minimumBalance;
     }
@@ -39,8 +39,11 @@ public class Savings extends Account {
     public void setMinimumBalance(BigDecimal minimumBalance) {
         if (minimumBalance.compareTo(new BigDecimal("100")) < 0) {
             throw new IllegalArgumentException("Minimum balance cannot be less than 100.");
+        } else if (minimumBalance == null){
+            this.minimumBalance = new BigDecimal("100");
+        } else {
+            this.minimumBalance = minimumBalance;
         }
-        this.minimumBalance = minimumBalance;
     }
 
     public BigDecimal calculateInterest() {
