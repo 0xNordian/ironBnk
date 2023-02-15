@@ -1,4 +1,4 @@
-package com.ironbank.proj.model;
+package com.ironbank.proj.models.users;
 
 public enum AccountStatus {
     FROZEN,

@@ -1,11 +1,15 @@
-package com.ironbank.proj.model;
+package com.ironbank.proj.models.accounts;
 
-import jakarta.persistence.*;
+import com.ironbank.proj.models.users.AccountHolder;
+import com.ironbank.proj.models.users.AccountType;
+import com.ironbank.proj.models.Money;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 @Table(name = "checking_accounts")
 @Getter
 @Setter

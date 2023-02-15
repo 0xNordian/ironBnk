@@ -1,11 +1,14 @@
-package com.ironbank.proj.model;
+package com.ironbank.proj.models.accounts;
 
+import com.ironbank.proj.models.users.AccountHolder;
+import com.ironbank.proj.models.users.AccountType;
+import com.ironbank.proj.models.Money;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.LocalDate;
+
 @Table(name = "credit_card")
 @Entity
 public class CreditCard extends Account {

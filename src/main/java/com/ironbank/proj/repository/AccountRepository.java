@@ -1,7 +1,6 @@
 package com.ironbank.proj.repository;
 
-import com.ironbank.proj.model.Account;
-import com.ironbank.proj.model.AccountType;
+import com.ironbank.proj.models.accounts.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

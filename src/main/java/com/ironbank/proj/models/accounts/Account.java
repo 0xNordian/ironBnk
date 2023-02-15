@@ -1,6 +1,11 @@
-package com.ironbank.proj.model;
+package com.ironbank.proj.models.accounts;
 
+import com.ironbank.proj.models.users.AccountHolder;
+import com.ironbank.proj.models.users.AccountStatus;
+import com.ironbank.proj.models.users.AccountType;
+import com.ironbank.proj.models.Money;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,8 +27,11 @@ public abstract class Account {
     protected Money balance;
     private String secretKey;
     @ManyToOne
+    @JoinColumn(name = "primary_owner_id")
+    @NotNull
     private AccountHolder primaryOwner;
     @ManyToOne
+    @JoinColumn(name = "secondary_owner_id")
     private AccountHolder secondaryOwner;
     @Embedded
     @AttributeOverrides({@AttributeOverride(name = "amount", column = @Column(name = "penalty_fee_amount")),@AttributeOverride(name = "currency", column = @Column(name = "penalty_fee_currency"))})
@@ -33,6 +41,9 @@ public abstract class Account {
     private AccountStatus status;
 
     public abstract AccountType getAccountType();
+
+    public Account() {
+    }
 
     public Account(Money penaltyFee, AccountStatus accountStatus) {
         this.penaltyFee = penaltyFee;

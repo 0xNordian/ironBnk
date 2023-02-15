@@ -1,4 +1,4 @@
-package com.ironbank.proj.model;
+package com.ironbank.proj.models.users;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;

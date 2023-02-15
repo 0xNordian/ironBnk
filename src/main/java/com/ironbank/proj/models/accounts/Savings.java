@@ -1,5 +1,8 @@
-package com.ironbank.proj.model;
+package com.ironbank.proj.models.accounts;
 
+import com.ironbank.proj.models.users.AccountHolder;
+import com.ironbank.proj.models.users.AccountType;
+import com.ironbank.proj.models.Money;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.Getter;

@@ -1,6 +1,6 @@
 package com.ironbank.proj.repository;
 
-import com.ironbank.proj.model.ThirdParty;
+import com.ironbank.proj.models.users.ThirdParty;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

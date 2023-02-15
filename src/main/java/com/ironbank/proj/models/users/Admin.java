@@ -1,4 +1,4 @@
-package com.ironbank.proj.model;
+package com.ironbank.proj.models.users;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -13,6 +13,7 @@ import lombok.Setter;
 public class Admin extends User {
 
     public Admin(String name, String password) {
+
         super(name, password);
     }
 }

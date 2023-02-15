@@ -1,5 +1,5 @@
 
-package com.ironbank.proj.model;
+package com.ironbank.proj.models;
 
 import jakarta.persistence.Embeddable;
 

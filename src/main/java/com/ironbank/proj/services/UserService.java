@@ -2,9 +2,9 @@
 package com.ironbank.proj.services;
 
 
-import com.ironbank.proj.model.Address;
-import com.ironbank.proj.model.User;
-import com.ironbank.proj.model.UserRole;
+import com.ironbank.proj.model.users.Address;
+import com.ironbank.proj.model.users.User;
+import com.ironbank.proj.model.users.UserRole;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
