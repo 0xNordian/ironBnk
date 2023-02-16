@@ -10,14 +10,20 @@ public class AccountDTO {
     private String secretKey;
     private String monthlyMaintenanceFee;
     private String interestRate;
+    private String creditLimit;
 
-    public AccountDTO(String balance, Long primaryOwnerId, Long secondaryOwnerId, String minimunBalance, String secretKey, String monthlyMaintenanceFee, String interestRate) {
+    public AccountDTO() {
+    }
+
+    public AccountDTO(String balance, Long primaryOwnerId, Long secondaryOwnerId, String minimunBalance, String secretKey, String monthlyMaintenanceFee, String interestRate, String penaltyFee, String creditLimit) {
         this.balance = balance;
         this.primaryOwnerId = primaryOwnerId;
         this.secondaryOwnerId = secondaryOwnerId;
         this.minimunBalance = minimunBalance;
         this.secretKey = secretKey;
         this.monthlyMaintenanceFee = monthlyMaintenanceFee;
+        this.interestRate = interestRate;
+        this.creditLimit = creditLimit;
     }
 
     public String getBalance() {
@@ -74,5 +80,13 @@ public class AccountDTO {
 
     public void setInterestRate(String interestRate) {
         this.interestRate = interestRate;
+    }
+
+    public String getCreditLimit() {
+        return creditLimit;
+    }
+
+    public void setCreditLimit(String creditLimit) {
+        this.creditLimit = creditLimit;
     }
 }

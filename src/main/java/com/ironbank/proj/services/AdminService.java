@@ -2,11 +2,13 @@ package com.ironbank.proj.services;
 
 import com.ironbank.proj.DTO.AccountDTO;
 import com.ironbank.proj.DTO.SavingsDTO;
+import com.ironbank.proj.models.accounts.CreditCard;
 import com.ironbank.proj.models.users.AccountHolder;
 import com.ironbank.proj.models.Money;
 import com.ironbank.proj.models.accounts.Savings;
 import com.ironbank.proj.repository.AccountHolderRepository;
 import com.ironbank.proj.repository.AccountRepository;
+import com.ironbank.proj.repository.CreditCardRepository;
 import com.ironbank.proj.repository.SavingsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +25,9 @@ public class AdminService {
     AccountRepository accountRepository;
     @Autowired
     SavingsRepository savingsRepository;
+
+    @Autowired
+    CreditCardRepository creditCardRepository;
 
     public Savings createSavingsAcc(AccountDTO accountDTO){
         AccountHolder primaryOwner = accountHolderRepository.findById(accountDTO.getPrimaryOwnerId()).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Primary owner not found"));
@@ -51,5 +56,19 @@ public class AdminService {
 
         //return accountRepository.save(savings);
         return savingsRepository.save(savings);
+    }
+
+    public CreditCard createCreditCardAccount(AccountDTO accountDTO){
+        System.out.println("createCreditCardAccount from AdminService: " + accountDTO);
+        AccountHolder primaryOwner = accountHolderRepository.findById(accountDTO.getPrimaryOwnerId()).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Primary owner not found"));
+        AccountHolder secondaryOwner = null;
+
+        if(accountDTO.getSecondaryOwnerId() != null && accountHolderRepository.findById(accountDTO.getSecondaryOwnerId()).isPresent()){
+            secondaryOwner = accountHolderRepository.findById(accountDTO.getSecondaryOwnerId()).get();
+        }
+
+        CreditCard creditCard = new CreditCard(new Money(new BigDecimal(accountDTO.getBalance())),accountDTO.getSecretKey(), primaryOwner, secondaryOwner,new BigDecimal(accountDTO.getCreditLimit()),new BigDecimal((accountDTO.getInterestRate())));
+
+        return creditCardRepository.save(creditCard);
     }
 }
