@@ -5,6 +5,8 @@ import com.ironbank.proj.models.users.AccountType;
 import com.ironbank.proj.models.Money;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -32,10 +34,10 @@ public class CreditCard extends Account {
 
     public void setCreditLimit(BigDecimal creditLimit) {
         if (creditLimit.compareTo(new BigDecimal("100")) < 0) {
-            throw new IllegalArgumentException("Credit limit cannot be lower than 100.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Credit limit cannot be lower than 100.");
         }
         if (creditLimit.compareTo(new BigDecimal("100000")) > 0) {
-            throw new IllegalArgumentException("Credit limit cannot be higher than 100000.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Credit limit cannot be higher than 100000.");
         }
         this.creditLimit = creditLimit;
     }
@@ -46,10 +48,10 @@ public class CreditCard extends Account {
 
     public void setInterestRate(BigDecimal interestRate) {
         if (interestRate.compareTo(new BigDecimal("0.1")) < 0) {
-            throw new IllegalArgumentException("Interest rate cannot be lower than 0.1.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Interest rate cannot be lower than 0.1.");
         }
         if (interestRate.compareTo(new BigDecimal("0.2")) > 0) {
-            throw new IllegalArgumentException("Interest rate cannot be higher than 0.2.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Interest rate cannot be higher than 0.2.");
         }
         this.interestRate = interestRate;
     }
