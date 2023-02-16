@@ -18,12 +18,10 @@ import java.math.BigDecimal;
 @Service
 public class AdminService {
     @Autowired
-    static
     AccountHolderRepository accountHolderRepository;
     @Autowired
     AccountRepository accountRepository;
     @Autowired
-    static
     SavingsRepository savingsRepository;
 
     public Savings createSavingsAcc(AccountDTO accountDTO){
@@ -40,7 +38,8 @@ public class AdminService {
         return savingsRepository.save(savings);
     }
 
-    public static Savings createSavingsAcc2(SavingsDTO savingsDTO){
+    public Savings createSavingsAcc2(SavingsDTO savingsDTO){
+        System.out.println("savingsDTO from AdminService: " + savingsDTO);
         AccountHolder primaryOwner = accountHolderRepository.findById(savingsDTO.getPrimaryOwnerId()).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Primary owner not found"));
         AccountHolder secondaryOwner = null;
 

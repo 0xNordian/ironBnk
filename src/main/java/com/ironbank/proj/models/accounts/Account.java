@@ -35,20 +35,12 @@ public abstract class Account {
     private AccountHolder secondaryOwner;
     @Embedded
     @AttributeOverrides({@AttributeOverride(name = "amount", column = @Column(name = "penalty_fee_amount")),@AttributeOverride(name = "currency", column = @Column(name = "penalty_fee_currency"))})
-    private Money penaltyFee = new Money(new BigDecimal(40));
+    private final Money penaltyFee = new Money(new BigDecimal(40));
     protected LocalDate creationDate = LocalDate.now();
     @Enumerated(EnumType.STRING)
     private AccountStatus status;
 
     public abstract AccountType getAccountType();
-
-    public Account() {
-    }
-
-    public Account(Money penaltyFee, AccountStatus accountStatus) {
-        this.penaltyFee = penaltyFee;
-        this.status = accountStatus;
-    }
 
     public Account(Money balance, String secretKey, AccountHolder primaryOwner, AccountHolder secondaryOwner) {
         this.balance = balance;
@@ -57,16 +49,8 @@ public abstract class Account {
         this.secondaryOwner = secondaryOwner;
         this.status = AccountStatus.ACTIVE;
     }
-
     public Money getPenaltyFee() {
         return penaltyFee;
-    }
-
-    public void setPenaltyFee(Money penaltyFee) {
-        if (penaltyFee.getAmount().compareTo(BigDecimal.ZERO) < 0) {
-            throw new IllegalArgumentException("Penalty fee cannot be negative.");
-        }
-        this.penaltyFee = penaltyFee;
     }
 
     public Money getBalance() {
@@ -77,25 +61,11 @@ public abstract class Account {
         return balance.getAmount().compareTo(amount.getAmount()) >= 0;
     }
 
-    public boolean isFrozen() {
-        return status == AccountStatus.FROZEN;
-    }
-
-    public boolean isActive() {
-        return status == AccountStatus.ACTIVE;
-    }
-
-    public void freeze() {
-        status = AccountStatus.FROZEN;
-    }
-
-    public void activate() {
-        status = AccountStatus.ACTIVE;
-    }
-
     public void deductPenaltyFee() {
-        if (balance.getAmount().compareTo(BigDecimal.ZERO) < 0) {
+        if(this instanceof Checking){
+        if (balance.getAmount().compareTo(((Checking) this).getMinimumBalance()) < 0) {
             balance.decreaseAmount(penaltyFee.getAmount());
+        }
         }
     }
 }

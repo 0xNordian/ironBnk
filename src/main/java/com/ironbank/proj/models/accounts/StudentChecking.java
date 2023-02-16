@@ -25,32 +25,4 @@ public class StudentChecking extends Account {
         return AccountType.STUDENT_CHECKING;
     }
 
-/*
-    private static final BigDecimal MINIMUM_BALANCE = BigDecimal.ZERO;
-    private static final BigDecimal MONTHLY_MAINTENANCE_FEE = BigDecimal.ZERO;
-
-    public StudentChecking() {
-        super();
-    }
-
-    public StudentChecking(Money balance, String secretKey, AccountHolder primaryOwner,
-                           AccountHolder secondaryOwner) {
-        super(balance, secretKey, primaryOwner, secondaryOwner);
-    }
-
-    @Override
-    public AccountType getAccountType() {
-        return AccountType.STUDENT_CHECKING;
-    }
-
-
-    public BigDecimal getMinimumBalance() {
-        return MINIMUM_BALANCE;
-    }
-
-    public BigDecimal getMonthlyMaintenanceFee() {
-        return MONTHLY_MAINTENANCE_FEE;
-    }
-
- */
 }

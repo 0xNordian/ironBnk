@@ -9,7 +9,6 @@ public class AccountDTO {
     private String minimunBalance;
     private String secretKey;
     private String monthlyMaintenanceFee;
-
     private String interestRate;
 
     public AccountDTO(String balance, Long primaryOwnerId, Long secondaryOwnerId, String minimunBalance, String secretKey, String monthlyMaintenanceFee, String interestRate) {

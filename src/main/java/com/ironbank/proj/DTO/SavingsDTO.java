@@ -8,7 +8,20 @@ public class SavingsDTO {
     private Long secondaryOwnerId;
     private String minimunBalance;
     private String secretKey;
+    private String monthlyMaintenanceFee;
     private String interestRate;
+
+    public SavingsDTO() {
+    }
+
+    public SavingsDTO(String balance, Long primaryOwnerId, Long secondaryOwnerId, String minimunBalance, String secretKey, String monthlyMaintenanceFee) {
+        this.balance = balance;
+        this.primaryOwnerId = primaryOwnerId;
+        this.secondaryOwnerId = secondaryOwnerId;
+        this.minimunBalance = minimunBalance;
+        this.secretKey = secretKey;
+        this.monthlyMaintenanceFee = monthlyMaintenanceFee;
+    }
 
     public String getBalance() {
         return balance;
@@ -64,5 +77,18 @@ public class SavingsDTO {
 
     public BigDecimal getInterestRateAsBigDecimal() {
         return new BigDecimal(interestRate);
+    }
+
+    @Override
+    public String toString() {
+        return "SavingsDTO{" +
+                "balance='" + balance + '\'' +
+                ", primaryOwnerId=" + primaryOwnerId +
+                ", secondaryOwnerId=" + secondaryOwnerId +
+                ", minimunBalance='" + minimunBalance + '\'' +
+                ", secretKey='" + secretKey + '\'' +
+                ", monthlyMaintenanceFee='" + monthlyMaintenanceFee + '\'' +
+                ", interestRate='" + interestRate + '\'' +
+                '}';
     }
 }
