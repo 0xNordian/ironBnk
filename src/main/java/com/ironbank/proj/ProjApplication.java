@@ -2,6 +2,7 @@ package com.ironbank.proj;
 
 import com.ironbank.proj.DTO.AccountDTO;
 import com.ironbank.proj.DTO.SavingsDTO;
+import com.ironbank.proj.models.Role;
 import com.ironbank.proj.models.accounts.Account;
 import com.ironbank.proj.models.accounts.Checking;
 import com.ironbank.proj.models.accounts.CreditCard;
@@ -10,12 +11,15 @@ import com.ironbank.proj.models.users.AccountHolder;
 import com.ironbank.proj.repository.AccountHolderRepository;
 import com.ironbank.proj.repository.SavingsRepository;
 import com.ironbank.proj.services.AdminService;
+import com.ironbank.proj.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 @SpringBootApplication
 public class ProjApplication implements CommandLineRunner {
@@ -31,11 +35,22 @@ public class ProjApplication implements CommandLineRunner {
 	@Autowired
 	AdminService adminService;
 
+	@Autowired
+	UserService userService;
+
+	@Autowired
+	PasswordEncoder passwordEncoder;
+
+
 
 	public void run(String... args) throws Exception {
-		AccountHolder ah1 = new AccountHolder("Jose", LocalDate.of(1986, 4, 15), null, null);
+		userService.saveRole(new Role(null, "ROLE_ACCOUNT_HOLDER"));
+		userService.saveRole(new Role(null, "ROLE_ADMIN"));
+
+		AccountHolder ah1 = new AccountHolder("Jose", "Jose1995", passwordEncoder.encode("jose1985"),new ArrayList<>(),LocalDate.of(1986, 4, 15), null, null);
 		ah1.setId(1L);
 		accountHolderRepository.save(ah1);
+		userService.addRoleToUser("Jose1995","ROLE_ACCOUNT_HOLDER");
 
 		SavingsDTO savingsDTO = new SavingsDTO();
 			savingsDTO.setBalance("6000");

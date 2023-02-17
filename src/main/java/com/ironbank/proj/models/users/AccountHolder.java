@@ -3,6 +3,8 @@ package com.ironbank.proj.models.users;
 
 
 
+import com.ironbank.proj.models.Role;
+import com.ironbank.proj.models.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -11,21 +13,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.Collection;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
-public class AccountHolder {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Long id;
-
-    @NotNull(message = "Name is required")
-    private String name;
+public class AccountHolder extends User {
 
     private LocalDate dateOfBirth;
 
@@ -42,12 +35,14 @@ public class AccountHolder {
     })
     private Address mailingAddress;
 
-    private String username;
-
-    public AccountHolder(String name, LocalDate dateOfBirth, Address primaryAddress, Address mailingAddress) {
-        this.name = name;
+    public AccountHolder(String name, String username, String password, Collection<Role> roles, LocalDate dateOfBirth, Address primaryAddress, Address mailingAddress) {
+        super(null, name, username, password, roles);
         this.dateOfBirth = dateOfBirth;
         this.primaryAddress = primaryAddress;
         this.mailingAddress = mailingAddress;
+    }
+
+    public AccountHolder() {
+        super();
     }
 }

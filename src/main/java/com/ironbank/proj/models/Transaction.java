@@ -1,7 +1,6 @@
 package com.ironbank.proj.models;
 
 import com.ironbank.proj.models.accounts.Account;
-import com.ironbank.proj.models.users.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -33,9 +32,5 @@ public class Transaction {
     private Money amount;
 
     private String description;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
 }
 
