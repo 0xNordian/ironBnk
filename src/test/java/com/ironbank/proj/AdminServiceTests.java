@@ -35,11 +35,11 @@ public class AdminServiceTests {
     public void testCreateSavingsAcc() {
         // Create a SavingsDTO object
         SavingsDTO savingsDTO = new SavingsDTO();
-        savingsDTO.setBalance("6000");
-        savingsDTO.setPrimaryOwnerId(1L);
-        savingsDTO.setMinimunBalance("2000");
-        savingsDTO.setSecretKey("4321");
-        savingsDTO.setInterestRate("0.05");
+            savingsDTO.setBalance("6000");
+            savingsDTO.setPrimaryOwnerId(1L);
+            savingsDTO.setMinimunBalance("2000");
+            savingsDTO.setSecretKey("4321");
+            savingsDTO.setInterestRate("0.05");
 
         // Create an AccountHolder object
         AccountHolder accountHolder = new AccountHolder();
