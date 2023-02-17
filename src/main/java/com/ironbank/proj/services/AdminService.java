@@ -30,23 +30,6 @@ public class AdminService {
     @Autowired
     CreditCardRepository creditCardRepository;
 
-    /*
-    public Savings createSavingsAcc(AccountDTO accountDTO){
-        AccountHolder primaryOwner = accountHolderRepository.findById(accountDTO.getPrimaryOwnerId()).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Primary owner not found"));
-        AccountHolder secondaryOwner = null;
-
-        if(accountDTO.getSecondaryOwnerId() != null && accountHolderRepository.findById(accountDTO.getSecondaryOwnerId()).isPresent()){
-            secondaryOwner = accountHolderRepository.findById(accountDTO.getSecondaryOwnerId()).get();
-        }
-
-        Savings savings = new Savings(new Money(new BigDecimal(accountDTO.getBalance())), accountDTO.getSecretKey(), primaryOwner, secondaryOwner, new BigDecimal((accountDTO.getInterestRate())),new BigDecimal(accountDTO.getMinimunBalance()));
-
-        //return accountRepository.save(savings);
-        return savingsRepository.save(savings);
-    }
-
-     */
-
     public Savings createSavingsAcc(SavingsDTO savingsDTO){
         System.out.println("savingsDTO from AdminService: " + savingsDTO);
         AccountHolder primaryOwner = accountHolderRepository.findById(savingsDTO.getPrimaryOwnerId()).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Primary owner not found"));

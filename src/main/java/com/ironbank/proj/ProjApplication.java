@@ -70,8 +70,8 @@ public class ProjApplication implements CommandLineRunner {
 
 		//Checking > 24
 		AccountDTO accountDTO1 = new AccountDTO();
-			accountDTO1.setBalance("3000");
-			accountDTO1.setSecretKey("ZF87bN90");
+			accountDTO1.setBalance("2000");
+			accountDTO1.setSecretKey("N90ZF87b");
 			accountDTO1.setPrimaryOwnerId(1L);
 
 			Account checking1 = adminService.createCheckingOrStudChecking(accountDTO1);
