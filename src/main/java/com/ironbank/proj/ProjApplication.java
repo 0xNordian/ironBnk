@@ -73,14 +73,10 @@ public class ProjApplication implements CommandLineRunner {
 			accountDTO1.setBalance("3000");
 			accountDTO1.setSecretKey("ZF87bN90");
 			accountDTO1.setPrimaryOwnerId(1L);
-			accountDTO1.setMinimunBalance("100");
-			accountDTO1.setMonthlyMaintenanceFee("");
-			accountDTO1.setDateOfBirth(LocalDate.of(1995, 4, 15));
 
 			Account checking1 = adminService.createCheckingOrStudChecking(accountDTO1);
 		System.out.println("Checking1 from Main: " + accountDTO1);
 		System.out.println("Cheking1: " + checking1);
-
 
 	}
 }

@@ -87,12 +87,12 @@ public class AdminService {
             secondaryOwner = accountHolderRepository.findById(accountDTO.getSecondaryOwnerId()).get();
         }
 
-        LocalDate dateOfBirth = accountDTO.getDateOfBirth();
+        LocalDate dateOfBirth = primaryOwner.getDateOfBirth();
         LocalDate now = LocalDate.now();
         Period age = Period.between(dateOfBirth, now);
 
         if (age.getYears() >= 24) {
-            Checking checkingAccount = new Checking(new Money(new BigDecimal(accountDTO.getBalance())),accountDTO.getSecretKey(), primaryOwner, secondaryOwner, new BigDecimal(accountDTO.getMinimunBalance()), new BigDecimal(accountDTO.getMonthlyMaintenanceFee()));
+            Checking checkingAccount = new Checking(new Money(new BigDecimal(accountDTO.getBalance())),accountDTO.getSecretKey(), primaryOwner, secondaryOwner);
 
             return checkingRepository.save(checkingAccount);
         } else if (age.getYears() > 0 ) {
