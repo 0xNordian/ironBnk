@@ -1,18 +1,16 @@
 package com.ironbank.proj.models.users;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity
+@Embeddable
 @Getter
 @Setter
 public class Address {
-    @Id
-    @Column(name = "id", nullable = false)
-    private Long id;
 
     private String street;
     private String city;

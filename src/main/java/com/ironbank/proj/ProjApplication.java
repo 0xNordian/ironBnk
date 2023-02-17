@@ -48,7 +48,6 @@ public class ProjApplication implements CommandLineRunner {
 		userService.saveRole(new Role(null, "ROLE_ADMIN"));
 
 		AccountHolder ah1 = new AccountHolder("Jose", "Jose1995", passwordEncoder.encode("jose1985"),new ArrayList<>(),LocalDate.of(1986, 4, 15), null, null);
-		ah1.setId(1L);
 		accountHolderRepository.save(ah1);
 		userService.addRoleToUser("Jose1995","ROLE_ACCOUNT_HOLDER");
 
