@@ -2,6 +2,7 @@ package com.ironbank.proj.controllers;
 
 import com.ironbank.proj.DTO.AccountDTO;
 import com.ironbank.proj.DTO.SavingsDTO;
+import com.ironbank.proj.models.Money;
 import com.ironbank.proj.models.accounts.Account;
 import com.ironbank.proj.models.accounts.CreditCard;
 import com.ironbank.proj.models.accounts.Savings;
@@ -9,7 +10,9 @@ import com.ironbank.proj.services.AdminService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -35,5 +38,12 @@ public class AdminController {
         return adminService.createCheckingOrStudChecking(accountDTO);
     }
 
+    @PostMapping("/update/{id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public Account updateTargetBalance(@RequestBody Money balance, @PathVariable Long id) {
+        return adminService.updateBalance(balance, id);
+    }
+
 }
+
 

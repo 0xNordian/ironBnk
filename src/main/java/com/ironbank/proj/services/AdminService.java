@@ -87,4 +87,33 @@ public class AdminService {
         }
     }
 
+    /*
+    public Account updateBalance(Money newBalance, Long id){
+
+        if (accountRepository.findById(id).isPresent()){
+            Account account = accountRepository.findById(id).get();
+            account.setBalance(newBalance);
+            return accountRepository.save(account);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No account found with the given id");
+        }
+    }
+
+     */
+
+    public Account updateBalance(Money newBalance, Long id){
+
+        if (accountRepository.findById(id).isPresent()){
+            Account account = accountRepository.findById(id).get();
+            if (newBalance.getAmount() != null) {
+                account.setBalance(newBalance);
+                return accountRepository.save(account);
+            } else {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The balance amount must not be null");
+            }
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No account found with the given id");
+        }
+    }
+
 }
