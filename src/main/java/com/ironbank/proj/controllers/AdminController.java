@@ -38,7 +38,7 @@ public class AdminController {
         return adminService.createCheckingOrStudChecking(accountDTO);
     }
 
-    @PostMapping("/update/{id}")
+    @PutMapping("/update/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public Account updateTargetBalance(@RequestBody Money balance, @PathVariable Long id) {
         return adminService.updateBalance(balance, id);
