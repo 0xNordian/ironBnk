@@ -30,7 +30,7 @@ public class Checking extends Account {
         return null;
     }
 
-    public Checking(Money balance, String secretKey, AccountHolder primaryOwner, AccountHolder secondaryOwner, Money penaltyFee) {
+    public Checking(Money balance, String secretKey, AccountHolder primaryOwner, AccountHolder secondaryOwner, BigDecimal minimumBalance, BigDecimal monthlyMaintenanceFee) {
         super(balance, secretKey, primaryOwner, secondaryOwner);
     }
 

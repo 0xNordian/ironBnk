@@ -2,6 +2,8 @@ package com.ironbank.proj;
 
 import com.ironbank.proj.DTO.AccountDTO;
 import com.ironbank.proj.DTO.SavingsDTO;
+import com.ironbank.proj.models.accounts.Account;
+import com.ironbank.proj.models.accounts.Checking;
 import com.ironbank.proj.models.accounts.CreditCard;
 import com.ironbank.proj.models.accounts.Savings;
 import com.ironbank.proj.models.users.AccountHolder;
@@ -31,20 +33,29 @@ public class ProjApplication implements CommandLineRunner {
 
 
 	public void run(String... args) throws Exception {
-		AccountHolder ah1 = new AccountHolder("Jose", LocalDate.now(), null, null);
+		AccountHolder ah1 = new AccountHolder("Jose", LocalDate.of(1986, 4, 15), null, null);
 		ah1.setId(1L);
 		accountHolderRepository.save(ah1);
 
 		SavingsDTO savingsDTO = new SavingsDTO();
-			savingsDTO.setBalance("5000");
+			savingsDTO.setBalance("6000");
 			savingsDTO.setPrimaryOwnerId(1L);
-			savingsDTO.setMinimunBalance("1000");
-			savingsDTO.setSecretKey("1234");
+			savingsDTO.setMinimunBalance("2000");
+			savingsDTO.setSecretKey("4321");
 			savingsDTO.setInterestRate("0.05");
 
-		Savings sav1 = adminService.createSavingsAcc2(savingsDTO);
-
+		Savings sav1 = adminService.createSavingsAcc(savingsDTO);
 		System.out.println("TEST: " +  savingsDTO);
+
+		SavingsDTO savingsDTO1 = new SavingsDTO();
+		savingsDTO1.setBalance("2000");
+		savingsDTO1.setPrimaryOwnerId(1L);
+		savingsDTO1.setMinimunBalance("7000");
+		savingsDTO1.setSecretKey("789");
+		savingsDTO1.setInterestRate("0.1");
+
+		Savings sav2 = adminService.createSavingsAcc(savingsDTO1);
+		System.out.println("TEST: " +  savingsDTO1);
 
 		AccountDTO accountDTO = new AccountDTO();
 			accountDTO.setBalance("3000");
@@ -55,6 +66,21 @@ public class ProjApplication implements CommandLineRunner {
 
 		CreditCard cc1 = adminService.createCreditCardAccount(accountDTO);
 		System.out.println("CreditCard: " + accountDTO);
+
+
+		//Checking > 24
+		AccountDTO accountDTO1 = new AccountDTO();
+			accountDTO1.setBalance("3000");
+			accountDTO1.setSecretKey("ZF87bN90");
+			accountDTO1.setPrimaryOwnerId(1L);
+			accountDTO1.setMinimunBalance("100");
+			accountDTO1.setMonthlyMaintenanceFee("");
+			accountDTO1.setDateOfBirth(LocalDate.of(1995, 4, 15));
+
+			Account checking1 = adminService.createCheckingOrStudChecking(accountDTO1);
+		System.out.println("Checking1 from Main: " + accountDTO1);
+		System.out.println("Cheking1: " + checking1);
+
 
 	}
 }

@@ -2,20 +2,18 @@ package com.ironbank.proj.services;
 
 import com.ironbank.proj.DTO.AccountDTO;
 import com.ironbank.proj.DTO.SavingsDTO;
-import com.ironbank.proj.models.accounts.CreditCard;
+import com.ironbank.proj.models.accounts.*;
 import com.ironbank.proj.models.users.AccountHolder;
 import com.ironbank.proj.models.Money;
-import com.ironbank.proj.models.accounts.Savings;
-import com.ironbank.proj.repository.AccountHolderRepository;
-import com.ironbank.proj.repository.AccountRepository;
-import com.ironbank.proj.repository.CreditCardRepository;
-import com.ironbank.proj.repository.SavingsRepository;
+import com.ironbank.proj.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.Period;
 
 @Service
 public class AdminService {
@@ -25,10 +23,14 @@ public class AdminService {
     AccountRepository accountRepository;
     @Autowired
     SavingsRepository savingsRepository;
-
+    @Autowired
+    CheckingRepository checkingRepository;
+    @Autowired
+    StudentCheckingRepository studentCheckingRepository;
     @Autowired
     CreditCardRepository creditCardRepository;
 
+    /*
     public Savings createSavingsAcc(AccountDTO accountDTO){
         AccountHolder primaryOwner = accountHolderRepository.findById(accountDTO.getPrimaryOwnerId()).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Primary owner not found"));
         AccountHolder secondaryOwner = null;
@@ -43,7 +45,9 @@ public class AdminService {
         return savingsRepository.save(savings);
     }
 
-    public Savings createSavingsAcc2(SavingsDTO savingsDTO){
+     */
+
+    public Savings createSavingsAcc(SavingsDTO savingsDTO){
         System.out.println("savingsDTO from AdminService: " + savingsDTO);
         AccountHolder primaryOwner = accountHolderRepository.findById(savingsDTO.getPrimaryOwnerId()).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Primary owner not found"));
         AccountHolder secondaryOwner = null;
@@ -71,4 +75,33 @@ public class AdminService {
 
         return creditCardRepository.save(creditCard);
     }
+
+    public Account createCheckingOrStudChecking(AccountDTO accountDTO){
+        System.out.println("createCheckingAccount from AdminService: " + accountDTO);
+
+        AccountHolder primaryOwner = accountHolderRepository.findById(accountDTO.getPrimaryOwnerId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Primary owner not found"));
+
+        AccountHolder secondaryOwner = null;
+        if (accountDTO.getSecondaryOwnerId() != null && accountHolderRepository.findById(accountDTO.getSecondaryOwnerId()).isPresent()) {
+            secondaryOwner = accountHolderRepository.findById(accountDTO.getSecondaryOwnerId()).get();
+        }
+
+        LocalDate dateOfBirth = accountDTO.getDateOfBirth();
+        LocalDate now = LocalDate.now();
+        Period age = Period.between(dateOfBirth, now);
+
+        if (age.getYears() >= 24) {
+            Checking checkingAccount = new Checking(new Money(new BigDecimal(accountDTO.getBalance())),accountDTO.getSecretKey(), primaryOwner, secondaryOwner, new BigDecimal(accountDTO.getMinimunBalance()), new BigDecimal(accountDTO.getMonthlyMaintenanceFee()));
+
+            return checkingRepository.save(checkingAccount);
+        } else if (age.getYears() > 0 ) {
+            StudentChecking studentChecking = new StudentChecking(new Money(new BigDecimal(accountDTO.getBalance())),accountDTO.getSecretKey(), primaryOwner, secondaryOwner);
+
+            return studentCheckingRepository.save(studentChecking);
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User must be older than 24 years old to open an account.");
+        }
+    }
+
 }

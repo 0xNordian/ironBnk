@@ -1,6 +1,7 @@
 package com.ironbank.proj.DTO;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 public class AccountDTO {
     private String balance;
@@ -11,11 +12,12 @@ public class AccountDTO {
     private String monthlyMaintenanceFee;
     private String interestRate;
     private String creditLimit;
+    private LocalDate dateOfBirth;
 
     public AccountDTO() {
     }
 
-    public AccountDTO(String balance, Long primaryOwnerId, Long secondaryOwnerId, String minimunBalance, String secretKey, String monthlyMaintenanceFee, String interestRate, String penaltyFee, String creditLimit) {
+    public AccountDTO(String balance, Long primaryOwnerId, Long secondaryOwnerId, String minimunBalance, String secretKey, String monthlyMaintenanceFee, String interestRate, String penaltyFee, String creditLimit, LocalDate dateOfBirth) {
         this.balance = balance;
         this.primaryOwnerId = primaryOwnerId;
         this.secondaryOwnerId = secondaryOwnerId;
@@ -24,6 +26,7 @@ public class AccountDTO {
         this.monthlyMaintenanceFee = monthlyMaintenanceFee;
         this.interestRate = interestRate;
         this.creditLimit = creditLimit;
+        this.dateOfBirth = dateOfBirth;
     }
 
     public String getBalance() {
@@ -88,5 +91,13 @@ public class AccountDTO {
 
     public void setCreditLimit(String creditLimit) {
         this.creditLimit = creditLimit;
+    }
+
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 }
