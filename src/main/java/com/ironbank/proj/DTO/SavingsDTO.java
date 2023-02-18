@@ -76,6 +76,9 @@ public class SavingsDTO {
     }
 
     public BigDecimal getInterestRateAsBigDecimal() {
+        if (interestRate == null || interestRate.isBlank() || interestRate.equals("0")) {
+            return null;
+        }
         return new BigDecimal(interestRate);
     }
 

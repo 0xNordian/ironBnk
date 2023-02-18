@@ -30,9 +30,11 @@ public class AdminService {
     @Autowired
     CreditCardRepository creditCardRepository;
 
+    /*
     public Savings createSavingsAcc(SavingsDTO savingsDTO){
         System.out.println("savingsDTO from AdminService: " + savingsDTO);
         AccountHolder primaryOwner = accountHolderRepository.findById(savingsDTO.getPrimaryOwnerId()).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Primary owner not found"));
+
         AccountHolder secondaryOwner = null;
 
         if(savingsDTO.getSecondaryOwnerId() != null && accountHolderRepository.findById(savingsDTO.getSecondaryOwnerId()).isPresent()){
@@ -40,6 +42,40 @@ public class AdminService {
         }
 
         Savings savings = new Savings(new Money(new BigDecimal(savingsDTO.getBalance())), savingsDTO.getSecretKey(), primaryOwner, secondaryOwner, new BigDecimal((savingsDTO.getInterestRate())),new BigDecimal(savingsDTO.getMinimunBalance()));
+
+        return savingsRepository.save(savings);
+    }
+     */
+
+    public Savings createSavingsAcc(SavingsDTO savingsDTO) {
+        AccountHolder primaryOwner = accountHolderRepository.findById(savingsDTO.getPrimaryOwnerId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Primary owner not found"));
+
+        AccountHolder secondaryOwner = null;
+
+        if (savingsDTO.getSecondaryOwnerId() != null) {
+            secondaryOwner = accountHolderRepository.findById(savingsDTO.getSecondaryOwnerId())
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Secondary owner not found"));
+        }
+
+        BigDecimal balance = savingsDTO.getBalanceAsBigDecimal();
+        BigDecimal minimumBalance = new BigDecimal("1000");
+        if (savingsDTO.getMinimunBalance() != null) {
+            minimumBalance = new BigDecimal(savingsDTO.getMinimunBalance());
+            if (minimumBalance.compareTo(new BigDecimal("100")) < 0) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Minimum balance cannot be less than 100");
+            }
+        }
+
+        BigDecimal interestRate = new BigDecimal("0.0025");
+        if (savingsDTO.getInterestRate() != null && !savingsDTO.getInterestRate().isBlank()) {
+            interestRate = new BigDecimal(savingsDTO.getInterestRate());
+            if (interestRate.compareTo(new BigDecimal("0.5")) > 0) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Interest rate cannot be greater than 0.5");
+            }
+        }
+
+        Savings savings = new Savings(new Money(balance), savingsDTO.getSecretKey(), primaryOwner, secondaryOwner, interestRate, minimumBalance);
 
         return savingsRepository.save(savings);
     }

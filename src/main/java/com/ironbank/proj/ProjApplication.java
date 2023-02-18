@@ -56,7 +56,7 @@ public class ProjApplication implements CommandLineRunner {
 			savingsDTO.setPrimaryOwnerId(1L);
 			savingsDTO.setMinimunBalance("2000");
 			savingsDTO.setSecretKey("4321");
-			savingsDTO.setInterestRate("0.05");
+			savingsDTO.setInterestRate(null);
 
 		Savings sav1 = adminService.createSavingsAcc(savingsDTO);
 		System.out.println("TEST: " +  savingsDTO);
@@ -66,7 +66,7 @@ public class ProjApplication implements CommandLineRunner {
 		savingsDTO1.setPrimaryOwnerId(1L);
 		savingsDTO1.setMinimunBalance("7000");
 		savingsDTO1.setSecretKey("789");
-		savingsDTO1.setInterestRate("0.1");
+		savingsDTO1.setInterestRate("0.005");
 
 		Savings sav2 = adminService.createSavingsAcc(savingsDTO1);
 		System.out.println("TEST: " +  savingsDTO1);
@@ -76,7 +76,7 @@ public class ProjApplication implements CommandLineRunner {
 			accountDTO.setSecretKey("RE45Bh67");
 			accountDTO.setPrimaryOwnerId(1L);
 			accountDTO.setCreditLimit("1250");
-			accountDTO.setInterestRate("2");
+			accountDTO.setInterestRate("0.005");
 
 		CreditCard cc1 = adminService.createCreditCardAccount(accountDTO);
 		System.out.println("CreditCard: " + accountDTO);
