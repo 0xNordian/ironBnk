@@ -76,7 +76,7 @@ public class ProjApplication implements CommandLineRunner {
 			accountDTO.setSecretKey("RE45Bh67");
 			accountDTO.setPrimaryOwnerId(1L);
 			accountDTO.setCreditLimit("1250");
-			accountDTO.setInterestRate("0.005");
+			accountDTO.setInterestRate("0.1");
 
 		CreditCard cc1 = adminService.createCreditCardAccount(accountDTO);
 		System.out.println("CreditCard: " + accountDTO);

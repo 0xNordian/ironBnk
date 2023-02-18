@@ -80,6 +80,7 @@ public class AdminService {
         return savingsRepository.save(savings);
     }
 
+    /*
     public CreditCard createCreditCardAccount(AccountDTO accountDTO){
         System.out.println("createCreditCardAccount from AdminService: " + accountDTO);
         AccountHolder primaryOwner = accountHolderRepository.findById(accountDTO.getPrimaryOwnerId()).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Primary owner not found"));
@@ -93,6 +94,47 @@ public class AdminService {
 
         return creditCardRepository.save(creditCard);
     }
+     */
+
+    public CreditCard createCreditCardAccount(AccountDTO accountDTO) {
+        AccountHolder primaryOwner = accountHolderRepository.findById(accountDTO.getPrimaryOwnerId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Primary owner not found"));
+
+        AccountHolder secondaryOwner = null;
+        if (accountDTO.getSecondaryOwnerId() != null) {
+            secondaryOwner = accountHolderRepository.findById(accountDTO.getSecondaryOwnerId())
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Secondary owner not found"));
+        }
+
+        BigDecimal balance = new BigDecimal(accountDTO.getBalance());
+
+        BigDecimal creditLimit = new BigDecimal("100");
+        if (accountDTO.getCreditLimit() != null) {
+            creditLimit = new BigDecimal(accountDTO.getCreditLimit());
+            if (creditLimit.compareTo(new BigDecimal("100")) < 0) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Credit limit cannot be lower than 100.");
+            }
+            if (creditLimit.compareTo(new BigDecimal("100000")) > 0) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Credit limit cannot be higher than 100000.");
+            }
+        }
+
+        BigDecimal interestRate = new BigDecimal("0.2");
+        if (accountDTO.getInterestRate() != null) {
+            interestRate = new BigDecimal(accountDTO.getInterestRate());
+            if (interestRate.compareTo(new BigDecimal("0.1")) < 0) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Interest rate cannot be lower than 0.1.");
+            }
+            if (interestRate.compareTo(new BigDecimal("0.2")) > 0) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Interest rate cannot be higher than 0.2.");
+            }
+        }
+
+        CreditCard creditCard = new CreditCard(new Money(balance), accountDTO.getSecretKey(), primaryOwner, secondaryOwner, creditLimit, interestRate);
+
+        return creditCardRepository.save(creditCard);
+    }
+
 
     public Account createCheckingOrStudChecking(AccountDTO accountDTO){
         System.out.println("createCheckingAccount from AdminService: " + accountDTO);
