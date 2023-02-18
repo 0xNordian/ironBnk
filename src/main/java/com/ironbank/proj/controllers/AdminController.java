@@ -44,6 +44,18 @@ public class AdminController {
         return adminService.updateBalance(balance, id);
     }
 
+    @DeleteMapping("/delete/{id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void deleteTargetAccount(@PathVariable Long id) {
+        adminService.deleteAccount(id);
+    }
+
+    @GetMapping("/accessAccount/{id}")
+    @ResponseStatus(HttpStatus.FOUND)
+    public ResponseEntity<Money> getBalanceFromTargetAccount(@PathVariable Long id){
+        Money balance = adminService.getBalanceFromAccount(id);
+        return ResponseEntity.ok().body(balance);
+    }
 }
 
 

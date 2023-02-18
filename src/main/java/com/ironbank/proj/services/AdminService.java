@@ -41,7 +41,6 @@ public class AdminService {
 
         Savings savings = new Savings(new Money(new BigDecimal(savingsDTO.getBalance())), savingsDTO.getSecretKey(), primaryOwner, secondaryOwner, new BigDecimal((savingsDTO.getInterestRate())),new BigDecimal(savingsDTO.getMinimunBalance()));
 
-        //return accountRepository.save(savings);
         return savingsRepository.save(savings);
     }
 
@@ -87,20 +86,6 @@ public class AdminService {
         }
     }
 
-    /*
-    public Account updateBalance(Money newBalance, Long id){
-
-        if (accountRepository.findById(id).isPresent()){
-            Account account = accountRepository.findById(id).get();
-            account.setBalance(newBalance);
-            return accountRepository.save(account);
-        } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No account found with the given id");
-        }
-    }
-
-     */
-
     public Account updateBalance(Money newBalance, Long id){
 
         if (accountRepository.findById(id).isPresent()){
@@ -116,4 +101,20 @@ public class AdminService {
         }
     }
 
+    public void deleteAccount(Long id) {
+        if (accountRepository.findById(id).isPresent()) {
+            accountRepository.deleteById(id);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer account not found ");
+        }
+    }
+
+    public Money getBalanceFromAccount(Long id){
+        if(accountRepository.findById(id).isPresent()){
+            Account account = accountRepository.findById(id).get();
+            return account.getBalance();
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There is no account with the given Id");
+        }
+    }
 }
