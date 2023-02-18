@@ -68,4 +68,20 @@ public abstract class Account {
         }
         }
     }
+    public void checkMinimumBalance() {
+        if (this instanceof Checking) {
+            if (((Checking) this).isBelowMinimumBalance()) {
+                balance.decreaseAmount(penaltyFee.getAmount());
+            }
+        } else if (this instanceof Savings) {
+            if (((Savings) this).isBelowMinimumBalance()) {
+                balance.decreaseAmount(penaltyFee.getAmount());
+            }
+        }
+    }
+
+    public void setBalance(Money balance) {
+        this.balance = balance;
+        checkMinimumBalance();
+    }
 }
