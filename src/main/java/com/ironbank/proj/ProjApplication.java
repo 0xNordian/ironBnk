@@ -41,8 +41,6 @@ public class ProjApplication implements CommandLineRunner {
 	@Autowired
 	PasswordEncoder passwordEncoder;
 
-
-
 	public void run(String... args) throws Exception {
 		userService.saveRole(new Role(null, "ROLE_ACCOUNT_HOLDER"));
 		userService.saveRole(new Role(null, "ROLE_ADMIN"));
@@ -50,6 +48,10 @@ public class ProjApplication implements CommandLineRunner {
 		AccountHolder ah1 = new AccountHolder("Jose", "Jose1995", passwordEncoder.encode("jose1985"),new ArrayList<>(),LocalDate.of(1986, 4, 15), null, null);
 		accountHolderRepository.save(ah1);
 		userService.addRoleToUser("Jose1995","ROLE_ACCOUNT_HOLDER");
+
+		AccountHolder ah2 = new AccountHolder("Nestor", "Nestor1986", passwordEncoder.encode("nt1986"),new ArrayList<>(),LocalDate.of(1987, 7, 15), null, null);
+		accountHolderRepository.save(ah2);
+		userService.addRoleToUser("Nestor1986","ROLE_ACCOUNT_HOLDER");
 
 		SavingsDTO savingsDTO = new SavingsDTO();
 			savingsDTO.setBalance("6000");

@@ -6,19 +6,24 @@ import com.ironbank.proj.models.Money;
 import com.ironbank.proj.models.accounts.Account;
 import com.ironbank.proj.models.accounts.CreditCard;
 import com.ironbank.proj.models.accounts.Savings;
+import com.ironbank.proj.models.accounts.TransferRequest;
 import com.ironbank.proj.services.AdminService;
-import jakarta.validation.Valid;
+import com.ironbank.proj.services.TransferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
+
+import java.math.BigDecimal;
 
 @RestController
 @RequestMapping("/api/admin")
 public class AdminController {
     @Autowired
     AdminService adminService;
+
+    @Autowired
+    TransferService transferService;
 
     @PostMapping("/savings")
     @ResponseStatus(HttpStatus.CREATED)
@@ -56,6 +61,16 @@ public class AdminController {
         Money balance = adminService.getBalanceFromAccount(id);
         return ResponseEntity.ok().body(balance);
     }
+
+    @PostMapping("/transferMoney")
+    @ResponseStatus(HttpStatus.OK)
+    public void transferMoney(@RequestBody TransferRequest transferRequest,
+                              @RequestParam Long senderAccountId,
+                              @RequestParam Long recipientAccountId,
+                              @RequestParam BigDecimal amount) {
+        transferService.transferMoney(senderAccountId, recipientAccountId, amount, transferRequest.getOwnerName());
+    }
+
 }
 
 

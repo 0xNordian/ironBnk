@@ -84,4 +84,20 @@ public abstract class Account {
         this.balance = balance;
         checkMinimumBalance();
     }
+
+    public boolean canWithdraw(BigDecimal amount) {
+        return hasSufficientFunds(new Money(amount));
+    }
+
+    public void withdraw(BigDecimal amount) {
+        if (!canWithdraw(amount)) {
+            throw new IllegalArgumentException("Insufficient funds");
+        }
+        balance.decreaseAmount(new Money(amount));
+    }
+
+    public void deposit(BigDecimal amount) {
+        balance.increaseAmount(new Money(amount));
+    }
+
 }
