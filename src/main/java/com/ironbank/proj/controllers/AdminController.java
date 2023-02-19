@@ -3,10 +3,7 @@ package com.ironbank.proj.controllers;
 import com.ironbank.proj.DTO.AccountDTO;
 import com.ironbank.proj.DTO.SavingsDTO;
 import com.ironbank.proj.models.Money;
-import com.ironbank.proj.models.accounts.Account;
-import com.ironbank.proj.models.accounts.CreditCard;
-import com.ironbank.proj.models.accounts.Savings;
-import com.ironbank.proj.models.accounts.TransferRequest;
+import com.ironbank.proj.models.accounts.*;
 import com.ironbank.proj.services.AdminService;
 import com.ironbank.proj.services.TransferService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,15 +59,17 @@ public class AdminController {
         return ResponseEntity.ok().body(balance);
     }
 
-    @PostMapping("/transferMoney")
+    @PostMapping("/transferFromChecking")
     @ResponseStatus(HttpStatus.OK)
-    public void transferMoney(@RequestBody TransferRequest transferRequest,
-                              @RequestParam Long senderAccountId,
-                              @RequestParam Long recipientAccountId,
-                              @RequestParam BigDecimal amount) {
-        transferService.transferMoney(senderAccountId, recipientAccountId, amount, transferRequest.getOwnerName());
+    public void transferFromChecking(@RequestBody Transfer transfer) {
+        transferService.transferMoneyFromChecking(transfer.getSourceAccountId(), transfer.getTargetAccountId(), transfer.getAmount(), transfer.getTransferRequest().getOwnerName());
     }
 
+    @PostMapping("/transferFromSaving")
+    @ResponseStatus(HttpStatus.OK)
+    public void transferFromSaving(@RequestBody Transfer transfer) {
+        transferService.transferMoneyFromSaving(transfer.getSourceAccountId(), transfer.getTargetAccountId(), transfer.getAmount(), transfer.getTransferRequest().getOwnerName());
+    }
 }
 
 

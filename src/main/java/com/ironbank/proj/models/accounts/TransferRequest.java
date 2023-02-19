@@ -9,5 +9,3 @@ import java.math.BigDecimal;
 public class TransferRequest {
     private String ownerName;
 }
-
-

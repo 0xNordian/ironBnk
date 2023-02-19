@@ -22,5 +22,8 @@ public class Transfer {
     @NotNull(message = "Transfer amount is required")
     @Positive(message = "Transfer amount must be greater than zero")
     private BigDecimal amount;
+
+    @NotNull(message = "Transfer request is required")
+    private TransferRequest transferRequest;
 }
 
