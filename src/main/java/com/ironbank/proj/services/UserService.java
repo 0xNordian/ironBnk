@@ -4,6 +4,7 @@ import com.ironbank.proj.models.Role;
 import com.ironbank.proj.models.User;
 import com.ironbank.proj.repository.UserRepository;
 import com.ironbank.proj.repository.RoleRepository;
+import com.ironbank.proj.services.interfaces.UserServiceInterface;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class UserService implements UserDetailsService {
+public class UserService implements UserServiceInterface, UserDetailsService {
 
     /**
      * Autowired UserRepository for database operations.
@@ -49,7 +50,7 @@ public class UserService implements UserDetailsService {
      * @return the UserDetails object that matches the given username
      * @throws UsernameNotFoundException if the user with the given username is not found
      */
-    @Override
+
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // Retrieve user with the given username
         User user = userRepository.findByUsername(username);

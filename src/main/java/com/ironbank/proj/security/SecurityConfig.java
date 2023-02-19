@@ -32,7 +32,8 @@ public class SecurityConfig {
     //@Autowired
     //private UserDetailsService userDetailsService;
 
-    // Autowired instance of the AuthenticationManagerBuilder
+    //Autowired instance of the AuthenticationManagerBuilder
+
     @Autowired
     private AuthenticationManagerBuilder authManagerBuilder;
 
@@ -78,9 +79,14 @@ public class SecurityConfig {
         // set up authorization for different request matchers and user roles
         http.authorizeHttpRequests((requests) -> requests
                 .requestMatchers("/api/login/**").permitAll()
-                .requestMatchers(POST,"/savings").hasAnyAuthority("ROLE_ADMIN")
-              //  .requestMatchers(GET, "/api/users").hasAnyAuthority("ROLE_USER")
-              //  .requestMatchers(POST, "/api/users").hasAnyAuthority("ROLE_ADMIN")
+                .requestMatchers(GET, "/api/users").hasAnyAuthority("ROLE_ACCOUNT_HOLDER")/*
+                .requestMatchers(POST, "/api/users").hasAnyAuthority("ROLE_ADMIN")
+                .requestMatchers(POST,"/api/admin/**").hasAnyAuthority("ROLE_ADMIN")
+                .requestMatchers(GET,"/api/admin/**").hasAnyAuthority("ROLE_ADMIN")
+                .requestMatchers(PUT,"/api/admin/**").hasAnyAuthority("ROLE_ADMIN")
+                .requestMatchers(DELETE,"/api/admin/**").hasAnyAuthority("ROLE_ADMIN")
+                .requestMatchers(POST,"/api/account_holder/**").hasAnyAuthority("ROLE_ACCOUNT_HOLDER")
+                .requestMatchers(GET,"/api/account_holder/**").hasAnyAuthority("ROLE_ACCOUNT_HOLDER")*/
                 .anyRequest().permitAll());
         // add the custom authentication filter to the http security object
         http.addFilter(customAuthenticationFilter);

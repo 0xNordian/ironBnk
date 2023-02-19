@@ -3,6 +3,7 @@ package com.ironbank.proj;
 import com.ironbank.proj.DTO.AccountDTO;
 import com.ironbank.proj.DTO.SavingsDTO;
 import com.ironbank.proj.models.Role;
+import com.ironbank.proj.models.User;
 import com.ironbank.proj.models.accounts.Account;
 import com.ironbank.proj.models.accounts.Checking;
 import com.ironbank.proj.models.accounts.CreditCard;
@@ -52,6 +53,18 @@ public class ProjApplication implements CommandLineRunner {
 		AccountHolder ah2 = new AccountHolder("Nestor", "Nestor1986", passwordEncoder.encode("nt1986"),new ArrayList<>(),LocalDate.of(1987, 7, 15), null, null);
 		accountHolderRepository.save(ah2);
 		userService.addRoleToUser("Nestor1986","ROLE_ACCOUNT_HOLDER");
+
+
+		userService.saveUser(new User(null, "John Doe", "john", "1234", new ArrayList<>()));
+		userService.saveUser(new User(null, "James Smith", "james", "1234", new ArrayList<>()));
+		userService.saveUser(new User(null, "Jane Carry", "jane", "1234", new ArrayList<>()));
+		userService.saveUser(new User(null, "Chris Anderson", "chris", "1234", new ArrayList<>()));
+
+		userService.addRoleToUser("john", "ROLE_ACCOUNT_HOLDER");
+		userService.addRoleToUser("james", "ROLE_ADMIN");
+		userService.addRoleToUser("jane", "ROLE_ACCOUNT_HOLDER");
+		userService.addRoleToUser("chris", "ROLE_ADMIN");
+		userService.addRoleToUser("chris", "ROLE_ACCOUNT_HOLDER");
 
 		SavingsDTO savingsDTO = new SavingsDTO();
 			savingsDTO.setBalance("6000");
