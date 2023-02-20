@@ -77,11 +77,11 @@ In addition to the default users, several default accounts are also generated, a
 
 
 ### Checking Accounts
-| Balance | Primary Owner ID | Secret Key |
-| --- | --- | --- |
-| $2,000 | 1 | "N90ZF87b" |
-| $1,500 | 2 | "hdfEWRT4452" |
-| $3,456 | 3 | "eytudgh&%/dfgh" |
+| Balance | Primary Owner ID | Secret Key | Account Type |
+| --- | --- | --- |----------|
+| $2,000 | 1 | "N90ZF87b" | Checking |
+| $1,500 | 2 | "hdfEWRT4452" | Checking |
+| $3,456 | 3 | "eytudgh&%/dfgh" | Student Checking |
 
 
 Feel free to modify or delete these default users and accounts as needed.
