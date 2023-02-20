@@ -64,5 +64,3 @@ public class AdminController {
         transferService.transferMoneyFromSaving(transfer.getSourceAccountId(), transfer.getTargetAccountId(), transfer.getAmount(), transfer.getTransferRequest().getOwnerName());
     }
 }
-
-
