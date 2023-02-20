@@ -90,16 +90,17 @@ In order to use the ironBnk application, you will need to use an API development
 
 | TITLE | METHOD | PATH | PARAMS | BODY | AUTH | ACCESS |
 | --- | --- | --- | --- | --- | --- | --- |
-| Login | GET | http://localhost:8080/api/login?username=XYZ&password=1234 | Username, Password | None | Required (Bearer Token) | ACCESS |
-| Users List | GET | http://localhost:8080/api/users | None | None | Required (Bearer Token) | ACCESS |
-| Create Savings Account | POST | http://localhost:8080/api/admin/savings | None | {"balance": "44000", "primaryOwnerId": 2, "secondaryOwnerId": null, "minimunBalance": null, "secretKey": "FGvb56jhkg", "monthlyMaintenanceFee": null, "interestRate": null} | Required (Bearer Token) | ACCESS |
-| Create Checkings Account | POST | http://localhost:8080/api/admin/checkings | None | {"balance": 6000, "secretKey": "mySecretKey2", "primaryOwnerId": 2, "secondaryOwnerId": null} | Required (Bearer Token) | ACCESS |
-| Update Balance | PUT | http://localhost:8080/api/admin/update/3 | id | {"amount": 900, "currency": "USD"} | Required (Bearer Token) | ACCESS |
-| Delete Account | DELETE | http://localhost:8080/api/admin/delete/1 | id | None | Required (Bearer Token) | ACCESS |
-| Access Account Balance | GET | http://localhost:8080/api/account_holder/accessAccount/2 | id | None | Required (Bearer Token) | ACCESS |
-| Create Credit Card | POST | http://localhost:8080/api/admin/creditcard | None | {"balance": "85050", "secretKey": "DDDdddDDDdd", "primaryOwnerId": 2, "secondaryOwnerId": null, "creditLimit": 10000, "interestRate": null} | Required (Bearer Token) | ACCESS |
-| Transfer from Checking Account | POST | http://localhost:8080/api/admin/transferFromChecking | None | {"sourceAccountId": 5, "targetAccountId": 4, "amount": 1100, "transferRequest": {"ownerName": "Nestor"}} | Required (Bearer Token) | ACCESS |
-| Transfer from Saving Account | POST | http://localhost:8080/api/admin/transferFromSaving | None | {"sourceAccountId": 2, "targetAccountId": 1, "amount": 1100, "transferRequest": {"ownerName": "Nestor"}} | Required (Bearer Token) | ACCESS |
+| Login | GET | http://localhost:8080/api/login?username=XYZ&password=1234 | Username, Password | None | Required (Bearer Token) | ALL |
+| Users List | GET | http://localhost:8080/api/users | None | None | Required (Bearer Token) | ADMIN |
+| Create Savings Account | POST | http://localhost:8080/api/admin/savings | None | {"balance": "44000", "primaryOwnerId": 2, "secondaryOwnerId": null, "minimunBalance": null, "secretKey": "FGvb56jhkg", "monthlyMaintenanceFee": null, "interestRate": null} | Required (Bearer Token) | ADMIN |
+| Create Checkings Account | POST | http://localhost:8080/api/admin/checkings | None | {"balance": 6000, "secretKey": "mySecretKey2", "primaryOwnerId": 2, "secondaryOwnerId": null} | Required (Bearer Token) | ADMIN |
+| Update Balance | PUT | http://localhost:8080/api/admin/update/3 | id | {"amount": 900, "currency": "USD"} | Required (Bearer Token) | ADMIN |
+| Delete Account | DELETE | http://localhost:8080/api/admin/delete/1 | id | None | Required (Bearer Token) | ADMIN |
+| Access Account Balance | GET | http://localhost:8080/api/account_holder/accessAccount/2 | id | None | Required (Bearer Token) | ACCOUNT_HOLDER |
+| Create Credit Card | POST | http://localhost:8080/api/admin/creditcard | None | {"balance": "85050", "secretKey": "DDDdddDDDdd", "primaryOwnerId": 2, "secondaryOwnerId": null, "creditLimit": 10000, "interestRate": null} | Required (Bearer Token) | ADMIN |
+| Transfer from Checking Account | POST | http://localhost:8080/api/admin/transferFromChecking | None | {"sourceAccountId": 5, "targetAccountId": 4, "amount": 1100, "transferRequest": {"ownerName": "Nestor"}} | Required (Bearer Token) | ADMIN |
+| Transfer from Saving Account | POST | http://localhost:8080/api/admin/transferFromSaving | None | {"sourceAccountId": 2, "targetAccountId": 1, "amount": 1100, "transferRequest": {"ownerName": "Nestor"}} | Required (Bearer Token) | ADMIN |
+
 
 ## _Testing_
 The testing class for AdminServices uses several tools to perform tests on the endpoints. The annotations used in the class are @SpringBootTest, which is used to load the Spring Boot application context, and @Autowired, which is used for dependency injection of the necessary services and repositories.
