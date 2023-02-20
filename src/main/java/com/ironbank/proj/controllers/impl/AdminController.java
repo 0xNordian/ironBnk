@@ -3,15 +3,15 @@ package com.ironbank.proj.controllers.impl;
 import com.ironbank.proj.DTO.AccountDTO;
 import com.ironbank.proj.DTO.SavingsDTO;
 import com.ironbank.proj.models.Money;
-import com.ironbank.proj.models.accounts.*;
+import com.ironbank.proj.models.accounts.Account;
+import com.ironbank.proj.models.accounts.CreditCard;
+import com.ironbank.proj.models.accounts.Savings;
+import com.ironbank.proj.models.accounts.Transfer;
 import com.ironbank.proj.services.AdminService;
 import com.ironbank.proj.services.TransferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.math.BigDecimal;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -63,6 +63,7 @@ public class AdminController {
     public void transferFromSaving(@RequestBody Transfer transfer) {
         transferService.transferMoneyFromSaving(transfer.getSourceAccountId(), transfer.getTargetAccountId(), transfer.getAmount(), transfer.getTransferRequest().getOwnerName());
     }
+
 }
 
 

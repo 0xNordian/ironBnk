@@ -2,6 +2,7 @@ package com.ironbank.proj.services;
 
 import com.ironbank.proj.DTO.AccountDTO;
 import com.ironbank.proj.DTO.SavingsDTO;
+import com.ironbank.proj.models.User;
 import com.ironbank.proj.models.accounts.*;
 import com.ironbank.proj.models.users.AccountHolder;
 import com.ironbank.proj.models.Money;
@@ -30,22 +31,8 @@ public class AdminService {
     @Autowired
     CreditCardRepository creditCardRepository;
 
-    /*
-    public Savings createSavingsAcc(SavingsDTO savingsDTO){
-        System.out.println("savingsDTO from AdminService: " + savingsDTO);
-        AccountHolder primaryOwner = accountHolderRepository.findById(savingsDTO.getPrimaryOwnerId()).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Primary owner not found"));
-
-        AccountHolder secondaryOwner = null;
-
-        if(savingsDTO.getSecondaryOwnerId() != null && accountHolderRepository.findById(savingsDTO.getSecondaryOwnerId()).isPresent()){
-            secondaryOwner = accountHolderRepository.findById(savingsDTO.getSecondaryOwnerId()).get();
-        }
-
-        Savings savings = new Savings(new Money(new BigDecimal(savingsDTO.getBalance())), savingsDTO.getSecretKey(), primaryOwner, secondaryOwner, new BigDecimal((savingsDTO.getInterestRate())),new BigDecimal(savingsDTO.getMinimunBalance()));
-
-        return savingsRepository.save(savings);
-    }
-     */
+    @Autowired
+    UserService userService;
 
     public Savings createSavingsAcc(SavingsDTO savingsDTO) {
         AccountHolder primaryOwner = accountHolderRepository.findById(savingsDTO.getPrimaryOwnerId())
@@ -79,22 +66,6 @@ public class AdminService {
 
         return savingsRepository.save(savings);
     }
-
-    /*
-    public CreditCard createCreditCardAccount(AccountDTO accountDTO){
-        System.out.println("createCreditCardAccount from AdminService: " + accountDTO);
-        AccountHolder primaryOwner = accountHolderRepository.findById(accountDTO.getPrimaryOwnerId()).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Primary owner not found"));
-        AccountHolder secondaryOwner = null;
-
-        if(accountDTO.getSecondaryOwnerId() != null && accountHolderRepository.findById(accountDTO.getSecondaryOwnerId()).isPresent()){
-            secondaryOwner = accountHolderRepository.findById(accountDTO.getSecondaryOwnerId()).get();
-        }
-
-        CreditCard creditCard = new CreditCard(new Money(new BigDecimal(accountDTO.getBalance())),accountDTO.getSecretKey(), primaryOwner, secondaryOwner,new BigDecimal(accountDTO.getCreditLimit()),new BigDecimal((accountDTO.getInterestRate())));
-
-        return creditCardRepository.save(creditCard);
-    }
-     */
 
     public CreditCard createCreditCardAccount(AccountDTO accountDTO) {
         AccountHolder primaryOwner = accountHolderRepository.findById(accountDTO.getPrimaryOwnerId())
@@ -131,8 +102,11 @@ public class AdminService {
         }
 
         CreditCard creditCard = new CreditCard(new Money(balance), accountDTO.getSecretKey(), primaryOwner, secondaryOwner, creditLimit, interestRate);
-
+        if (creditCard == null) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to create credit card account.");
+        }
         return creditCardRepository.save(creditCard);
+
     }
 
 
@@ -195,4 +169,27 @@ public class AdminService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There is no account with the given Id");
         }
     }
+
+    public void createUserAccount(AccountDTO accountDTO){
+        // Find the primary owner of the account
+        AccountHolder primaryOwner = accountHolderRepository.findById(accountDTO.getPrimaryOwnerId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Primary owner not found"));
+
+        // Set the date of birth of the primary owner
+        primaryOwner.setDateOfBirth(accountDTO.getDateOfBirth());
+
+        // Save the primary owner
+        accountHolderRepository.save(primaryOwner);
+
+        // Add the admin role to the primary owner
+        userService.addRoleToUser(primaryOwner.getUsername(), "ROLE_ADMIN");
+
+        // If there is a secondary owner, find and save them
+        if (accountDTO.getSecondaryOwnerId() != null) {
+            AccountHolder secondaryOwner = accountHolderRepository.findById(accountDTO.getSecondaryOwnerId())
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Secondary owner not found"));
+            accountHolderRepository.save(secondaryOwner);
+        }
+    }
+
 }

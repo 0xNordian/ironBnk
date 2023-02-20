@@ -59,4 +59,8 @@ public class Savings extends Account {
     public boolean isBelowMinimumBalance() {
         return balance.getAmount().compareTo(minimumBalance) < 0;
     }
+
+    public BigDecimal getMinimumBalance() {
+        return minimumBalance;
+    }
 }
