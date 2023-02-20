@@ -1,7 +1,5 @@
 package com.ironbank.proj.models.accounts;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.ironbank.proj.models.users.AccountHolder;
 import com.ironbank.proj.models.users.AccountStatus;
 import com.ironbank.proj.models.users.AccountType;
@@ -20,14 +18,6 @@ import java.time.LocalDate;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @NoArgsConstructor
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "accountType")
-@JsonSubTypes({
-        @JsonSubTypes.Type(value = Checking.class, name = "CHECKING"),
-        @JsonSubTypes.Type(value = StudentChecking.class, name = "STUDENT_CHECKING"),
-        @JsonSubTypes.Type(value = Savings.class, name = "SAVINGS"),
-        @JsonSubTypes.Type(value = CreditCard.class, name = "CREDIT_CARD"),
-        @JsonSubTypes.Type(value = Account.class, name = "ACCOUNT")
-})
 public abstract class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

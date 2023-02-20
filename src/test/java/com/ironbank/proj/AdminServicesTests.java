@@ -6,10 +6,10 @@ import com.ironbank.proj.DTO.SavingsDTO;
 import com.ironbank.proj.models.Money;
 import com.ironbank.proj.models.accounts.Account;
 import com.ironbank.proj.models.accounts.Checking;
+import com.ironbank.proj.models.accounts.CreditCard;
 import com.ironbank.proj.models.accounts.Savings;
 import com.ironbank.proj.models.users.AccountHolder;
 import com.ironbank.proj.repository.AccountRepository;
-import com.ironbank.proj.repository.SavingsRepository;
 import com.ironbank.proj.services.AdminService;
 import com.ironbank.proj.services.UserService;
 import org.junit.jupiter.api.BeforeEach;
@@ -68,7 +68,7 @@ public class AdminServicesTests {
     }
 
     @Test
-    public void create_new_account() throws Exception {
+    public void create_new_CheckingAccount() throws Exception {
         AccountDTO accountDto = new AccountDTO("500",1L,null,null,"FRHS","100","0.1","40","1000",null);
         String body = objectMapper.writeValueAsString(accountDto);
 
@@ -84,18 +84,6 @@ public class AdminServicesTests {
         String body = objectMapper.writeValueAsString(accountDto);
 
         MvcResult mvcResult = mockMvc.perform(post("/api/admin//savings")
-                .content(body).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated()).andReturn();
-        System.out.println(mvcResult.getResponse().getContentAsString());
-        assertTrue(mvcResult.getResponse().getContentAsString().contains("500"));
-
-    }
-
-    @Test
-    public void create_new_creditcard() throws Exception {
-        AccountDTO accountDto = new AccountDTO("500",accountHolder1.getId(),null,null,"FRHS","100","0.1","40","1000",null);
-        String body = objectMapper.writeValueAsString(accountDto);
-
-        MvcResult mvcResult = mockMvc.perform(post("/api/admin//creditcard")
                 .content(body).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated()).andReturn();
         System.out.println(mvcResult.getResponse().getContentAsString());
         assertTrue(mvcResult.getResponse().getContentAsString().contains("500"));
@@ -128,6 +116,25 @@ public class AdminServicesTests {
         Savings expectedSavings = new Savings(new Money(new BigDecimal("6000")), "4321", accountHolder, accountHolder, new BigDecimal("0.05"), new BigDecimal("2000"));
         Savings actualSavings = adminService.createSavingsAcc(savingsDTO);
         assertEquals(expectedSavings.toString(), actualSavings.toString());
+    }
+
+    @Test
+    public void testCreateCreditCardAcc() {
+        // Create a SavingsDTO object
+        AccountDTO accountDTO = new AccountDTO();
+        accountDTO.setBalance("6000");
+        accountDTO.setPrimaryOwnerId(1L);
+        accountDTO.setSecretKey("1234");
+        accountDTO.setInterestRate("0.15");
+        accountDTO.setCreditLimit("2000");
+
+        AccountHolder accountHolder = new AccountHolder();
+        accountHolder.setId(1L);
+
+        CreditCard expectedCC = new CreditCard(new Money(new BigDecimal("6000")), "1234", accountHolder, null, new BigDecimal("2000"), new BigDecimal("0.15"));
+        CreditCard actualCC = adminService.createCreditCardAccount(accountDTO);
+        System.out.println("ACTUALCC: " + actualCC.toString());
+        assertEquals(expectedCC.toString(), actualCC.toString());
     }
 
         /*

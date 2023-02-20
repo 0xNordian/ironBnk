@@ -67,4 +67,13 @@ public class CreditCard extends Account {
         balance.increaseAmount(interestAmount);
     }
 
+    @Override
+    public String toString() {
+        return "CreditCard{" +
+                "creditLimit=" + creditLimit +
+                ", interestRate=" + interestRate +
+                ", balance=" + balance +
+                ", creationDate=" + creationDate +
+                '}';
+    }
 }
