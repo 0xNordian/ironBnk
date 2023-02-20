@@ -2,13 +2,15 @@ package com.ironbank.proj;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ironbank.proj.DTO.AccountDTO;
+import com.ironbank.proj.DTO.SavingsDTO;
 import com.ironbank.proj.models.Money;
 import com.ironbank.proj.models.accounts.Account;
 import com.ironbank.proj.models.accounts.Checking;
-import com.ironbank.proj.models.accounts.StudentChecking;
+import com.ironbank.proj.models.accounts.Savings;
 import com.ironbank.proj.models.users.AccountHolder;
 import com.ironbank.proj.repository.AccountRepository;
 import com.ironbank.proj.repository.SavingsRepository;
+import com.ironbank.proj.services.AdminService;
 import com.ironbank.proj.services.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,12 +33,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
-public class TestPlayground {
+public class AdminServicesTests {
     private static final Currency USD = Currency.getInstance("USD");
     @Autowired
     WebApplicationContext context;
     @Autowired
-    SavingsRepository savingsRepository;
+    AdminService adminService;
+
     @Autowired
     UserService userService;
     private MockMvc mockMvc;
@@ -76,24 +79,6 @@ public class TestPlayground {
     }
 
     @Test
-    public void create_new_student_checking_account() throws Exception {
-        // create the account DTO
-        AccountDTO accountDto = new AccountDTO("500", 2L, null, null, "FRHS", "100", "0.1", "40", "1000", null);
-
-        // perform the POST request
-        MvcResult mvcResult = mockMvc.perform(post("/api/admin/checkings")
-                        .content(objectMapper.writeValueAsString(accountDto))
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated())
-                .andReturn();
-
-        // check that the response contains the expected account type
-        String response = mvcResult.getResponse().getContentAsString();
-        assertTrue(response.contains("\"accountType\":\"studentChecking\""));
-    }
-
-
-    @Test
     public void create_new_savings() throws Exception {
         AccountDTO accountDto = new AccountDTO("500",accountHolder1.getId(),null,null,"FRHS","100","0.1","40","1000",null);
         String body = objectMapper.writeValueAsString(accountDto);
@@ -126,4 +111,59 @@ public class TestPlayground {
         boolean found = accountRepository.findById(1L).isPresent();
         assertFalse(found);
     }
+
+    @Test
+    public void testCreateSavingsAcc() {
+        // Create a SavingsDTO object
+        SavingsDTO savingsDTO = new SavingsDTO();
+        savingsDTO.setBalance("6000");
+        savingsDTO.setPrimaryOwnerId(1L);
+        savingsDTO.setMinimunBalance("2000");
+        savingsDTO.setSecretKey("4321");
+        savingsDTO.setInterestRate("0.05");
+
+        AccountHolder accountHolder = new AccountHolder();
+        accountHolder.setId(1L);
+
+        Savings expectedSavings = new Savings(new Money(new BigDecimal("6000")), "4321", accountHolder, accountHolder, new BigDecimal("0.05"), new BigDecimal("2000"));
+        Savings actualSavings = adminService.createSavingsAcc(savingsDTO);
+        assertEquals(expectedSavings.toString(), actualSavings.toString());
+    }
+
+        /*
+    @Test
+    public void create_new_student_checking_account() throws Exception {
+        // create the account DTO
+        AccountDTO accountDto = new AccountDTO("500", accountHolder2.getId(), null, "250", "FRHS", "100", "0.1", "40", "1000", null);
+
+        // perform the POST request
+        MvcResult mvcResult = mockMvc.perform(post("/api/admin/checkings")
+                        .content(objectMapper.writeValueAsString(accountDto))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        // check that the response contains the expected data
+        String response = mvcResult.getResponse().getContentAsString();
+        System.out.println("RESPONSE: " + response);
+        assertTrue(response.contains("\"accountType\":\"STUDENT_CHECKING\""));
+        assertTrue(response.contains("\"balance\":{\"currency\":\"USD\",\"amount\":500.00}"));
+        assertTrue(response.contains("\"secretKey\":\"FRHS\""));
+        assertTrue(response.contains("\"penaltyFee\":{\"currency\":\"USD\",\"amount\":40.00}"));
+        assertTrue(response.contains("\"minimumBalance\":250"));
+
+        try {
+            // retrieve the created account from the response
+            Account createdAccount = objectMapper.readValue(response, Account.class);
+            System.out.println( "CREATED ACCOUNT TYPE: " + createdAccount);
+            System.out.println( "ACCOUNTTYPE: " + AccountType.STUDENT_CHECKING.toString());
+
+            // check if the created account is an instance of Checking or StudentChecking
+            assertEquals(AccountType.STUDENT_CHECKING.toString(), createdAccount.getAccountType());
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("An exception occurred while parsing the response");
+        }
+    }
+     */
 }

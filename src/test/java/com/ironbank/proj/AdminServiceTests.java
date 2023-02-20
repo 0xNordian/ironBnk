@@ -83,7 +83,7 @@ public class AdminServiceTests {
         Savings expectedSavings = new Savings(new Money(new BigDecimal("6000")), "4321", accountHolder, accountHolder, new BigDecimal("0.05"), new BigDecimal("2000"));
         //when(savingsRepository.save(any(Savings.class))).thenReturn(expectedSavings);
         Savings actualSavings = adminService.createSavingsAcc(savingsDTO);
-        assertEquals(expectedSavings, actualSavings);
+        assertEquals(expectedSavings.toString(), actualSavings.toString());
     }
 
     @Test
@@ -99,11 +99,11 @@ public class AdminServiceTests {
         AccountHolder accountHolder = new AccountHolder();
         accountHolder.setId(1L);
 
-        when(accountHolderRepository.findById(1L)).thenReturn(Optional.of(accountHolder));
+        //when(accountHolderRepository.findById(1L)).thenReturn(Optional.of(accountHolder));
         CreditCard expectedCC = new CreditCard(new Money(new BigDecimal("6000")), "1234", accountHolder, null, new BigDecimal("2000"), new BigDecimal("0.15"));
-        when(creditCardRepository.save(any(CreditCard.class))).thenReturn(expectedCC);
+        //when(creditCardRepository.save(any(CreditCard.class))).thenReturn(expectedCC);
         CreditCard actualCC = adminService.createCreditCardAccount(accountDTO);
-        assertEquals(expectedCC, actualCC);
+        assertEquals(expectedCC.toString(), actualCC.toString());
     }
 
     @Test

@@ -63,4 +63,14 @@ public class Savings extends Account {
     public BigDecimal getMinimumBalance() {
         return minimumBalance;
     }
+
+    @Override
+    public String toString() {
+        return "Savings{" +
+                "interestRate=" + interestRate +
+                ", minimumBalance=" + minimumBalance +
+                ", balance=" + balance +
+                ", creationDate=" + creationDate +
+                '}';
+    }
 }
