@@ -1,7 +1,5 @@
 # IronBnk 🏦
 
-[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
-
 ## _Project Description_
 
 This project is a banking system developed using Java and Spring Boot. It is designed to meet all the given requirements such as having 4 types of accounts, 3 types of users, and specific attributes for each account type. The project is intended to showcase the skills and knowledge of the developer in implementing a backend system, utilizing MySQL database tables, and applying authentication with Spring Security. The main objective of this project is to provide a practical learning experience in developing a complex system while demonstrating proficiency in programming concepts such as error handling, unit testing, and integration testing. The project also includes extra features such as fraud detection and deployment of the application to an external server. By completing this project, the developer aims to solidify their knowledge of Java Spring Boot and showcase their abilities in developing a robust and scalable system.
